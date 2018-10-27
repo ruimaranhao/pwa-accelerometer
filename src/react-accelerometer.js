@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 /**
@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
  *      )}
  *    </ReactAccelerometer>
  */
-class ReactAccelerometer extends React.Component {
+class ReactAccelerometer extends Component {
   constructor (props) {
     super(props)
 
@@ -85,3 +85,4 @@ ReactAccelerometer.defaultProps = {
   useGravity: true
 }
 
+export default ReactAccelerometer;
