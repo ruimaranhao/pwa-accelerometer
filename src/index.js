@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import './react-accelerometer';
+import ReactAccelerometer from './react-accelerometer';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
