@@ -19,7 +19,9 @@ export default class Accelerometer extends React.Component {
       beta: null,
       gamma: null
     },
-    landscape: false
+    landscape: false,
+
+    debounce: 1000
   }
 
   componentDidMount () {

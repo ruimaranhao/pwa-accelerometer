@@ -12,21 +12,3 @@ ReactDOM.render(<App />, document.getElementById('root'));
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.unregister();
-
-
-const AwesomeComponent = () => (
-    <ReactAccelerometer>
-      {(position, rotation) => (
-        <ul>
-          <li>x: {position.x}</li>
-          <li>y: {position.y}</li>
-          <li>z: {position.z}</li>
-          <li>rotation alpha: {rotation.alpha}</li>
-          <li>rotation beta: {rotation.beta}</li>
-          <li>rotation gamma: {rotation.gamma}</li>
-        </ul>
-      )}
-    </ReactAccelerometer>
-  )
-  
-  ReactDOM.render(<AwesomeComponent />, document.querySelector('#app'))
