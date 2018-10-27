@@ -1,4 +1,6 @@
 import React from 'react'
+import { fromEvent } from 'rxjs';
+import { throttleTime } from 'rxjs/operators';
 
 export default class Accelerometer extends React.Component {
 
@@ -25,35 +27,33 @@ export default class Accelerometer extends React.Component {
   }
 
   componentDidMount () {
-    window.addEventListener('devicemotion', this.handleAcceleration)
+    //window.addEventListener('devicemotion', this.handleAcceleration)
     window.addEventListener('orientationchange', this.handleOrientation)
-  }
 
-  componentWillUnmount () {
-    window.removeEventListener('devicemotion', this.handleAcceleration)
-    window.removeEventListener('orientationchange', this.handleOrientation)
-  }
+    fromEvent(window, 'orientationchange')
+        .pipe(throttleTime(500))
+        .subscribe((event) => {
+            const { orientation } = window
+            this.setState(() => ({ landscape: orientation === 90 || orientation === -90 }))});
 
-  handleOrientation = (event) => {
-    const { orientation } = window
-    this.setState(() => ({ landscape: orientation === 90 || orientation === -90 }))
-  }
 
-  handleAcceleration = (event) => {
-    const { landscape } = this.state
-    const { useGravity, multiplier } = this.props
-    const acceleration = useGravity ? event.accelerationIncludingGravity : event.acceleration
-    const rotation = event.rotationRate || null
-    const { x, y, z } = acceleration
-
-    this.setState(() => ({
-      rotation,
-      position: {
-        x: (landscape ? y : x) * multiplier,
-        y: (landscape ? x : y) * multiplier,
-        z: z * multiplier
-      }
-    }))
+    fromEvent(window, 'devicemotion')
+        .pipe(throttleTime(500))
+        .subscribe((event) => {
+            const { landscape } = this.state
+            const { useGravity, multiplier } = this.props
+            const acceleration = useGravity ? event.accelerationIncludingGravity : event.acceleration
+            const rotation = event.rotationRate || null
+            const { x, y, z } = acceleration
+        
+            this.setState(() => ({
+              rotation,
+              position: {
+                x: (landscape ? y : x) * multiplier,
+                y: (landscape ? x : y) * multiplier,
+                z: z * multiplier
+              }
+            }))});
   }
 
   render () {
