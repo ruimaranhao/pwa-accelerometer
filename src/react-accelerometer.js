@@ -1,34 +1,28 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
 
-/**
- * @usage
- *    <ReactAccelerometer useGravity multiplier={3}>
- *      {(position, rotation) => (
- *        <div style={{ transform: `translate3d(${position.x}px, ${position.y}px, 0)`}}>
- *          Hello there
- *        </div>
- *      )}
- *    </ReactAccelerometer>
- */
-class ReactAccelerometer extends Component {
-  constructor (props) {
-    super(props)
+export default class Accelerometer extends React.Component {
 
-    this.state = {
+  static defaultProps = {
+    multiplier: 1,
+    useGravity: true,
+    render: () => {}
+  }
+
+  state = {
+    position: {
       x: null,
       y: null,
-      z: null,
-      rotation: null,
-      landscape: false
-    }
-
-    this.handleAcceleration = this.handleAcceleration.bind(this)
-    this.handleOrientation = this.handleOrientation.bind(this)
+      z: null
+    },
+    rotation: {
+      alpha: null,
+      beta: null,
+      gamma: null
+    },
+    landscape: false
   }
 
   componentDidMount () {
-    this.handleOrientation()
     window.addEventListener('devicemotion', this.handleAcceleration)
     window.addEventListener('orientationchange', this.handleOrientation)
   }
@@ -38,51 +32,34 @@ class ReactAccelerometer extends Component {
     window.removeEventListener('orientationchange', this.handleOrientation)
   }
 
-  handleOrientation (event) {
+  handleOrientation = (event) => {
     const { orientation } = window
-    this.setState({ landscape: orientation === 90 || orientation === -90 })
+    this.setState(() => ({ landscape: orientation === 90 || orientation === -90 }))
   }
 
-  handleAcceleration (event) {
+  handleAcceleration = (event) => {
     const { landscape } = this.state
     const { useGravity, multiplier } = this.props
     const acceleration = useGravity ? event.accelerationIncludingGravity : event.acceleration
     const rotation = event.rotationRate || null
     const { x, y, z } = acceleration
 
-    this.setState({
+    this.setState(() => ({
       rotation,
       x: (landscape ? y : x) * multiplier,
       y: (landscape ? x : y) * multiplier,
       z: z * multiplier
-    })
+    }))
   }
 
   render () {
-    const { children } = this.props
-    const { x, y, z, rotation } = this.state
-
-    /**
-     * We have to detect if one of the values was ever set by the 'devicemotion' event,
-     * as some browsers implement the API, but the device itself doesn't support.
-     */
-    if (x || y || z) {
-      return children({ x, y, z }, rotation)
-    }
-
-    return children()
-  }
+    const {render} = this.props
+    const {position, rotation} = this.state
+    
+    return (
+      <div>
+        {render({...position, ...rotation})}
+      </div>
+    )
+  } 
 }
-
-ReactAccelerometer.propTypes = {
-  children: PropTypes.func.isRequired,
-  multiplier: PropTypes.number,
-  useGravity: PropTypes.bool
-}
-
-ReactAccelerometer.defaultProps = {
-  multiplier: 1,
-  useGravity: true
-}
-
-export default ReactAccelerometer;
