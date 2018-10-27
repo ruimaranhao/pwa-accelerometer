@@ -1,30 +1,22 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Accelerometer from './Accelerometer';
 
-import './react-accelerometer'
-
-class App extends Component {
+export default class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <Accelerometer render={({ x, y, z, alpha, beta, gamma }) => (
+          <ul>
+            <li>x: {x}</li>
+            <li>y: {y}</li>
+            <li>z: {z}</li>
+            <li>rotation alpha: {alpha}</li>
+            <li>rotation beta: {beta}</li>
+            <li>rotation gamma: {gamma}</li>
+          </ul>)}
+        />
       </div>
     );
   }
 }
-
-export default App;
