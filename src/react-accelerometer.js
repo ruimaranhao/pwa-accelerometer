@@ -46,9 +46,11 @@ export default class Accelerometer extends React.Component {
 
     this.setState(() => ({
       rotation,
-      x: (landscape ? y : x) * multiplier,
-      y: (landscape ? x : y) * multiplier,
-      z: z * multiplier
+      position: {
+        x: (landscape ? y : x) * multiplier,
+        y: (landscape ? x : y) * multiplier,
+        z: z * multiplier
+      }
     }))
   }
 
