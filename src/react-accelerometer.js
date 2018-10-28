@@ -23,7 +23,7 @@ export default class Accelerometer extends React.Component {
     },
     landscape: false,
 
-    html_processed: null,
+    north: null,
   }
 
   componentDidMount () {
@@ -37,8 +37,7 @@ export default class Accelerometer extends React.Component {
             const { orientation } = window
             this.setState(() => ({ landscape: orientation === 90 || orientation === -90 }))});
 
-
-    fromEvent(window, 'devicemotion')
+      fromEvent(window, 'devicemotion')
         .pipe(throttleTime(timeout))
         .subscribe((event) => {
             const { landscape } = this.state
@@ -46,7 +45,7 @@ export default class Accelerometer extends React.Component {
             const acceleration = useGravity ? event.accelerationIncludingGravity : event.acceleration
             const rotation = event.rotationRate || null
             const { x, y, z } = acceleration
-        
+    
             this.setState(() => ({
               rotation,
               position: {
@@ -54,17 +53,24 @@ export default class Accelerometer extends React.Component {
                 y: (landscape ? x : y) * multiplier,
                 z: z * multiplier
               },
-              html_processed: '<h1>TESTE</h1>'
+          }))});
+
+
+      fromEvent(window, 'deviceorientation')
+            .pipe(throttleTime(timeout))
+            .subscribe((event) => {    
+                this.setState(() => ({
+                  north: 360 - event.alpha,
             }))});
   }
 
   render () {
     const {render} = this.props
-    const {position, rotation, html_processed} = this.state
+    const {position, rotation, north} = this.state
     
     return (
       <div>
-        {render({...position, ...rotation, html_processed})}
+        {render({...position, ...rotation, north})}
       </div>
     )
   } 
