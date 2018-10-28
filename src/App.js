@@ -7,7 +7,7 @@ export default class App extends Component {
   render() {
     return (
       <div className="App">
-        <Accelerometer render={({ x, y, z, alpha, beta, gamma, html_processed }) => (
+        <Accelerometer timeout={100} render={({ x, y, z, alpha, beta, gamma, html_processed }) => (
           <header className="App-header">
           <img
             src={logo}

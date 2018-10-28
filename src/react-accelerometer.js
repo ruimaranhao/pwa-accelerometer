@@ -27,18 +27,19 @@ export default class Accelerometer extends React.Component {
   }
 
   componentDidMount () {
-    //window.addEventListener('devicemotion', this.handleAcceleration)
+    const {timeout} = this.props
+
     window.addEventListener('orientationchange', this.handleOrientation)
 
     fromEvent(window, 'orientationchange')
-        .pipe(throttleTime(100))
+        .pipe(throttleTime(timeout))
         .subscribe((event) => {
             const { orientation } = window
             this.setState(() => ({ landscape: orientation === 90 || orientation === -90 }))});
 
 
     fromEvent(window, 'devicemotion')
-        .pipe(throttleTime(100))
+        .pipe(throttleTime(timeout))
         .subscribe((event) => {
             const { landscape } = this.state
             const { useGravity, multiplier } = this.props
