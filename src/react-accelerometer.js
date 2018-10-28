@@ -60,7 +60,7 @@ export default class Accelerometer extends React.Component {
             .pipe(throttleTime(timeout))
             .subscribe((event) => {    
                 this.setState(() => ({
-                  north: 360 - event.alpha,
+                  north: (360.0 - event.alpha).toFixed(2),
             }))});
   }
 
