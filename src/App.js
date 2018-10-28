@@ -7,14 +7,14 @@ export default class App extends Component {
   render() {
     return (
       <div className="App">
-        <Accelerometer render={({ x, y, z, alpha, beta, gamma }) => (
+        <Accelerometer render={({ x, y, z, alpha, beta, gamma, html_processed }) => (
           <header className="App-header">
           <img
             src={logo}
             className="App-logo"
             alt="logo"
             style={{
-              transform: `rotate(${Math.round(alpha) + 100}deg)`
+              transform: `rotate(${Math.round(alpha)}deg)`
             }}
           />
           <ul>
@@ -25,10 +25,9 @@ export default class App extends Component {
             <li>rotation beta: {beta}</li>
             <li>rotation gamma: {gamma}</li>
           </ul>
+          <p> BLA BLA: {html_processed}</p>
         </header>
-
-
-          )}
+        )}
         />
       </div>
     );

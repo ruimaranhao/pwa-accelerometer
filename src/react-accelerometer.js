@@ -22,6 +22,8 @@ export default class Accelerometer extends React.Component {
       gamma: null
     },
     landscape: false,
+
+    html_processed: null,
   }
 
   componentDidMount () {
@@ -50,17 +52,18 @@ export default class Accelerometer extends React.Component {
                 x: (landscape ? y : x) * multiplier,
                 y: (landscape ? x : y) * multiplier,
                 z: z * multiplier
-              }
+              },
+              html_processed: '<h1>TESTE</h1>'
             }))});
   }
 
   render () {
     const {render} = this.props
-    const {position, rotation} = this.state
+    const {position, rotation, html_processed} = this.state
     
     return (
       <div>
-        {render({...position, ...rotation})}
+        {render({...position, ...rotation, html_processed})}
       </div>
     )
   } 
