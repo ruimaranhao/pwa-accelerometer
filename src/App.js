@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
-import './App.css';
 import Accelerometer from './Accelerometer';
+import logo from './logo.svg';
+import './App.css';
 
 export default class App extends Component {
   render() {
     return (
       <div className="App">
-        <Accelerometer render={({ x, y, z, alpha, beta, gamma }) => (
-          <ul>
-            <li>x: {x}</li>
-            <li>y: {y}</li>
-            <li>z: {z}</li>
-            <li>rotation alpha: {alpha}</li>
-            <li>rotation beta: {beta}</li>
-            <li>rotation gamma: {gamma}</li>
-          </ul>)}
-        />
+        <Accelerometer render={({ alpha }) => (
+          <header className="App-header">
+            <img
+              src={logo}
+              className="App-logo"
+              alt="logo"
+              style={{
+                transform: `rotate(${Math.round(alpha)}deg)`
+              }}
+            />
+          </header>
+        )} />
       </div>
     );
   }
